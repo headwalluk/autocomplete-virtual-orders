@@ -188,3 +188,8 @@ dist
 # Builds
 /*.zip
 /*.tar.gz
+
+# Editor lock / temp files
+.#*
+\#*\#
+*~

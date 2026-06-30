@@ -3,7 +3,7 @@
  * Plugin Name:          Autocomplete Virtual Orders
  * Plugin URI:           https://headwall-hosting.com/
  * Description:          Automatically completes WooCommerce orders that contain only virtual items (nothing to ship) when they reach Processing.
- * Version:              0.1.0
+ * Version:              1.0.0
  * Requires at least:    6.0
  * Requires PHP:         8.0
  * Requires Plugins:     woocommerce
@@ -21,7 +21,7 @@
 
 defined( 'ABSPATH' ) || die();
 
-const ACVO_VERSION = '0.1.0';
+const ACVO_VERSION = '1.0.0';
 
 define( 'ACVO_FILE', __FILE__ );
 define( 'ACVO_BASENAME', plugin_basename( __FILE__ ) );

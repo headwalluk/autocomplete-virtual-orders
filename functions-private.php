@@ -5,7 +5,7 @@
  * Internal helpers used within the plugin namespace. Not part of the public API.
  *
  * @package AutocompleteVirtualOrders
- * @since 0.1.0
+ * @since 1.0.0
  */
 
 namespace Autocomplete_Virtual_Orders;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || die();
 /**
  * Get the plugin instance.
  *
- * @since 0.1.0
+ * @since 1.0.0
  * @return Plugin The plugin instance.
  */
 function get_plugin(): Plugin {

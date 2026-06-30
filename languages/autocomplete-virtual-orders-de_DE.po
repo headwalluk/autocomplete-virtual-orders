@@ -1,5 +1,3 @@
-# Copyright (C) 2026 Paul Faulkner
-# This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
 "Project-Id-Version: Autocomplete Virtual Orders 1.0.0\n"
@@ -9,34 +7,35 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-06-30T16:50:19+00:00\n"
+"POT-Creation-Date: 2026-06-30T16:44:00+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Language: de_DE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: autocomplete-virtual-orders\n"
 
 #. Plugin Name of the plugin
 #: autocomplete-virtual-orders.php
 msgid "Autocomplete Virtual Orders"
-msgstr ""
+msgstr "Automatische Vervollständigung virtueller Bestellungen"
 
 #. Plugin URI of the plugin
 #. Author URI of the plugin
 #: autocomplete-virtual-orders.php
 msgid "https://headwall-hosting.com/"
-msgstr ""
+msgstr "https://headwall-hosting.com/"
 
 #. Description of the plugin
 #: autocomplete-virtual-orders.php
 msgid "Automatically completes WooCommerce orders that contain only virtual items (nothing to ship) when they reach Processing."
-msgstr ""
+msgstr "Schließt WooCommerce-Bestellungen, die ausschließlich virtuelle Artikel enthalten (keine Versandware), automatisch ab, sobald sie den Status „In Bearbeitung“ erreichen."
 
 #. Author of the plugin
 #: autocomplete-virtual-orders.php
 msgid "Paul Faulkner"
-msgstr ""
+msgstr "Paul Faulkner"
 
 #. translators: %s is the plugin name, used as a prefix on the order note; not translated.
 #: includes/class-plugin.php:94
 #, php-format
 msgid "%s: order completed automatically (all items are virtual — nothing to ship)."
-msgstr ""
+msgstr "%s: Bestellung wurde automatisch abgeschlossen (alle Artikel sind virtuell – es gibt nichts zu versenden)."

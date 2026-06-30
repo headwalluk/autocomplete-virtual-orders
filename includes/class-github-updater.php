@@ -7,7 +7,7 @@
  * updates.
  *
  * @package AutocompleteVirtualOrders
- * @since 0.1.0
+ * @since 1.0.0
  */
 
 namespace Autocomplete_Virtual_Orders;
@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || die();
  * Checks GitHub Releases for plugin updates and hooks into the
  * WordPress plugin update system.
  *
- * @since 0.1.0
+ * @since 1.0.0
  */
 class Github_Updater {
 
@@ -40,7 +40,7 @@ class Github_Updater {
 	/**
 	 * Constructor.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	public function __construct() {
 		$this->plugin_basename = ACVO_BASENAME;
@@ -54,7 +54,7 @@ class Github_Updater {
 	/**
 	 * Check whether GitHub auto-updates are enabled.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 *
 	 * @return bool
 	 */
@@ -66,7 +66,7 @@ class Github_Updater {
 		 * environments, local development, or temporarily pinning the
 		 * plugin to its current version.
 		 *
-		 * @since 0.1.0
+		 * @since 1.0.0
 		 *
 		 * @param bool $enabled Whether auto-updates are enabled. Default true.
 		 */
@@ -76,7 +76,7 @@ class Github_Updater {
 	/**
 	 * Check GitHub for a newer release and inject into the update transient.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 *
 	 * @param object $transient The update_plugins transient object.
 	 * @return object
@@ -114,7 +114,7 @@ class Github_Updater {
 	/**
 	 * Provide plugin information for the "View details" modal.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 *
 	 * @param false|object|array $result The result object or array. Default false.
 	 * @param string             $action The API action being performed.
@@ -160,7 +160,7 @@ class Github_Updater {
 	/**
 	 * Clear the cached release data after a plugin update completes.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 *
 	 * @param \WP_Upgrader $upgrader The upgrader instance.
 	 * @param array        $options  Update details.
@@ -180,7 +180,7 @@ class Github_Updater {
 	/**
 	 * Fetch the latest release from GitHub, with transient caching.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 *
 	 * @return array|null Release data array, or null on failure.
 	 */
@@ -242,10 +242,10 @@ class Github_Updater {
 	 * Find the plugin ZIP asset from a GitHub release.
 	 *
 	 * Looks for a .zip asset whose name matches the plugin slug
-	 * (e.g. "autocomplete-virtual-orders.zip" or "autocomplete-virtual-orders-0.1.0.zip").
+	 * (e.g. "autocomplete-virtual-orders.zip" or "autocomplete-virtual-orders-1.0.0.zip").
 	 * Prefers the stable "{slug}.zip" over a versioned match.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 *
 	 * @param array $release_data Decoded GitHub release API response.
 	 * @return string Download URL, or empty string if no suitable asset found.
@@ -280,7 +280,7 @@ class Github_Updater {
 	 * For routine flow tracing — cache hits, version comparisons, "up to date"
 	 * results. Use log_error() for actual failures that warrant investigation.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 *
 	 * @param string $message The message to log.
 	 */
@@ -297,7 +297,7 @@ class Github_Updater {
 	 * missing release assets) that should always be visible to a sysadmin
 	 * diagnosing why updates aren't flowing — without requiring WP_DEBUG.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 *
 	 * @param string $message The message to log.
 	 */

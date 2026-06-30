@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.1.0] - 2026-06-30
+## [1.0.0] - 2026-06-30
+
+First public release.
 
 ### Added
 - Auto-complete WooCommerce orders that contain only virtual items when they
@@ -22,7 +24,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - WooCommerce High-Performance Order Storage (HPOS) compatibility declaration.
 - In-plugin GitHub release updater with the `acvo_updater_enabled` filter, plus a
   tag-triggered GitHub Actions release workflow.
+- Internationalisation: `.pot` plus en_GB, de_DE, es_ES, fr_FR, it_IT and nl_NL
+  translations.
 - Documentation: `docs/installation.md` and `docs/hooks.md`.
 
-[Unreleased]: https://github.com/headwalluk/autocomplete-virtual-orders/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/headwalluk/autocomplete-virtual-orders/releases/tag/v0.1.0
+[Unreleased]: https://github.com/headwalluk/autocomplete-virtual-orders/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/headwalluk/autocomplete-virtual-orders/releases/tag/v1.0.0

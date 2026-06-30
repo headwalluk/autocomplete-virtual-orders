@@ -1,9 +1,9 @@
 # Autocomplete Virtual Orders - Project Tracker
 
-**Version:** 0.1.0
+**Version:** 1.0.0
 **Last Updated:** 30 June 2026
-**Current Phase:** Milestone 2 (Documentation & Packaging)
-**Overall Progress:** 100% (v0.1.0 feature-complete)
+**Current Phase:** Released
+**Overall Progress:** 100% (v1.0.0 released)
 
 ---
 
@@ -46,11 +46,10 @@ activation. Every decision is overridable by developers through PHP filters.
 
 ## Active TODO Items
 
-- [ ] **Confirm `UPDATER_GITHUB_REPO`** in `constants.php` matches the real repo
-      (currently `headwalluk/autocomplete-virtual-orders`). The updater and the
-      release workflow both assume releases ship a `autocomplete-virtual-orders.zip`
-      asset on tags matching `v*.*.*`.
-- [ ] Initial git commit + first `v0.1.0` tag to exercise the release workflow.
+- [x] **Confirm `UPDATER_GITHUB_REPO`** in `constants.php` matches the real repo
+      (`headwalluk/autocomplete-virtual-orders` — confirmed against the git remote).
+- [x] Initial git commit + `v1.0.0` tag to exercise the release workflow.
+- [ ] Verify the GitHub Actions release build attaches `autocomplete-virtual-orders.zip`.
 - [ ] Decide whether to publish to WP.org (would need WP.org `readme.txt` + assets).
 
 ---
@@ -99,7 +98,7 @@ entry to Processing, with developer filters and HPOS compatibility.
 - [ ] Manual test: mixed order → stays Processing
 - [ ] Manual test: all-physical order → stays Processing
 - [ ] Manual test: filter override forces/blocks completion
-- [ ] Initial git commit
+- [x] Initial git commit
 
 ### Milestone 2: Documentation & Packaging
 
@@ -110,7 +109,7 @@ entry to Processing, with developer filters and HPOS compatibility.
 - [x] `README.md` (GitHub-facing, badges + summary + audience)
 - [x] `LICENSE` (GPLv2)
 - [x] `languages/autocomplete-virtual-orders.pot` (one runtime string + header metadata)
-- [x] `CHANGELOG.md` (Keep a Changelog format, 0.1.0)
+- [x] `CHANGELOG.md` (Keep a Changelog format, 1.0.0)
 - [x] `docs/installation.md` (site owners / devs / designers)
 - [x] `docs/hooks.md` (filters & actions reference)
 - [ ] `readme.txt` (WP.org-style) — deferred unless we publish to WP.org
@@ -127,7 +126,7 @@ entry to Processing, with developer filters and HPOS compatibility.
 - [x] `acvo_updater_enabled` filter wired
 - [x] `.github/workflows/release.yml` — refactored slug + release notes, `main` branch
 - [x] `.distignore` — excludes dev/CI files from the distributed zip
-- [ ] Confirm repo slug + cut first `v0.1.0` release (see Active TODO)
+- [x] Confirm repo slug + cut first `v1.0.0` release (see Active TODO)
 
 ---
 

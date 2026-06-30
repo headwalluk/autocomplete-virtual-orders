@@ -5,7 +5,7 @@
  * All magic strings live here.
  *
  * @package AutocompleteVirtualOrders
- * @since 0.1.0
+ * @since 1.0.0
  */
 
 namespace Autocomplete_Virtual_Orders;
