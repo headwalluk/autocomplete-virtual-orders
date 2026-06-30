@@ -1,0 +1,28 @@
+# Files and directories excluded from the distributed plugin zip.
+# Used by .github/workflows/release.yml (rsync --exclude-from).
+
+# Version control
+.git
+.gitignore
+.gitattributes
+
+# CI / release tooling
+.github
+.distignore
+
+# Development tooling
+.claude
+phpcs.xml
+phpcs.xml.dist
+.phpcs.xml
+
+# Project documentation that ships on GitHub, not in the plugin
+dev-notes
+docs
+CLAUDE.md
+README.md
+CHANGELOG.md
+
+# Build output
+build
+*.zip

@@ -1,0 +1,40 @@
+# Copyright (C) 2026 Paul Faulkner
+# This file is distributed under the GPLv2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Autocomplete Virtual Orders 0.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/autocomplete-virtual-orders\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-06-30T15:51:27+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: autocomplete-virtual-orders\n"
+
+#. Plugin Name of the plugin
+#: autocomplete-virtual-orders.php
+msgid "Autocomplete Virtual Orders"
+msgstr ""
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: autocomplete-virtual-orders.php
+msgid "https://headwall-hosting.com/"
+msgstr ""
+
+#. Description of the plugin
+#: autocomplete-virtual-orders.php
+msgid "Automatically completes WooCommerce orders that contain only virtual items (nothing to ship) when they reach Processing."
+msgstr ""
+
+#. Author of the plugin
+#: autocomplete-virtual-orders.php
+msgid "Paul Faulkner"
+msgstr ""
+
+#: includes/class-plugin.php:92
+msgid "Autocomplete Virtual Orders: order completed automatically (all items are virtual — nothing to ship)."
+msgstr ""
