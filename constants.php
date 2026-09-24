@@ -37,3 +37,20 @@ const HOOK_TRIGGER = 'woocommerce_order_status_processing';
 const UPDATER_GITHUB_REPO = 'headwalluk/autocomplete-virtual-orders';
 const UPDATER_CACHE_KEY   = 'acvo_latest_release';
 const UPDATER_CACHE_TTL   = 12 * HOUR_IN_SECONDS;
+
+/**
+ * Back-off after a failed release lookup.
+ *
+ * Shorter than UPDATER_CACHE_TTL so a real release is not missed for long.
+ *
+ * @since 1.1.0
+ */
+const UPDATER_FAILURE_CACHE_KEY = 'acvo_latest_release_failed';
+const UPDATER_FAILURE_CACHE_TTL = HOUR_IN_SECONDS;
+
+/**
+ * Seconds to wait on the GitHub API before giving up.
+ *
+ * @since 1.1.0
+ */
+const UPDATER_REQUEST_TIMEOUT = 10;

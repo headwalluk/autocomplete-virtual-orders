@@ -70,7 +70,7 @@ class Github_Updater {
 		 *
 		 * @param bool $enabled Whether auto-updates are enabled. Default true.
 		 */
-		return (bool) apply_filters( 'acvo_updater_enabled', true );
+		return (bool) filter_var( apply_filters( 'acvo_updater_enabled', true ), FILTER_VALIDATE_BOOLEAN );
 	}
 
 	/**
@@ -78,10 +78,11 @@ class Github_Updater {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param object $transient The update_plugins transient object.
-	 * @return object
+	 * @param mixed $transient The update_plugins transient — an object once core
+	 *                          has built it, but false or empty on early passes.
+	 * @return mixed The transient, unchanged unless an update was injected.
 	 */
-	public function check_for_update( $transient ) {
+	public function check_for_update( mixed $transient ): mixed {
 		$checked = is_object( $transient ) && property_exists( $transient, 'checked' ) ? $transient->checked : false;
 
 		if ( empty( $checked ) ) {
@@ -90,14 +91,15 @@ class Github_Updater {
 		} elseif ( ! $this->is_enabled() ) {
 			$this->log( 'check_for_update: updates disabled via filter, skipping.' );
 		} else {
-			$release = $this->get_latest_release();
+			$installed_version = $this->get_installed_version( $checked );
+			$release           = $this->get_latest_release();
 
 			if ( ! is_array( $release ) ) {
 				$this->log( 'check_for_update: no release data returned from GitHub.' );
-			} elseif ( version_compare( ACVO_VERSION, $release['version'], '>=' ) ) {
-				$this->log( 'check_for_update: current version ' . ACVO_VERSION . ' is up to date (latest: ' . $release['version'] . ').' );
+			} elseif ( version_compare( $installed_version, $release['version'], '>=' ) ) {
+				$this->log( 'check_for_update: current version ' . $installed_version . ' is up to date (latest: ' . $release['version'] . ').' );
 			} else {
-				$this->log( 'check_for_update: update available ' . ACVO_VERSION . ' → ' . $release['version'] . '.' );
+				$this->log( 'check_for_update: update available ' . $installed_version . ' → ' . $release['version'] . '.' );
 				$transient->response[ $this->plugin_basename ] = (object) array(
 					'slug'        => $this->plugin_slug,
 					'plugin'      => $this->plugin_basename,
@@ -112,17 +114,44 @@ class Github_Updater {
 	}
 
 	/**
+	 * Resolve the installed version from the file header, as recorded in the update transient.
+	 *
+	 * WordPress compares releases against the header, so a stale ACVO_VERSION is logged, not used.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param array $checked The transient's checked list, keyed by plugin basename.
+	 * @return string Version string WordPress considers installed.
+	 */
+	private function get_installed_version( array $checked ): string {
+		$installed_version = $checked[ $this->plugin_basename ] ?? '';
+
+		if ( '' === $installed_version ) {
+			$installed_version = ACVO_VERSION;
+			$this->log( 'get_installed_version: ' . $this->plugin_basename . ' absent from the checked list, falling back to ACVO_VERSION ' . $installed_version . '.' );
+		} elseif ( ACVO_VERSION !== $installed_version ) {
+			$this->log_error( 'get_installed_version: version drift — the plugin header reports ' . $installed_version . ' but ACVO_VERSION is ' . ACVO_VERSION . '. Both are set in autocomplete-virtual-orders.php and must be bumped together.' );
+		} else {
+			// Header and constant agree.
+		}
+
+		return $installed_version;
+	}
+
+	/**
 	 * Provide plugin information for the "View details" modal.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param false|object|array $result The result object or array. Default false.
-	 * @param string             $action The API action being performed.
-	 * @param object             $args   Plugin API arguments.
-	 * @return false|object
+	 * @param mixed $result The result object or array. Default false.
+	 * @param mixed $action The API action being performed.
+	 * @param mixed $args   Plugin API arguments.
+	 * @return mixed Our plugin information, or $result unchanged for any other request.
 	 */
-	public function plugin_info( $result, $action, $args ) {
-		if ( 'plugin_information' !== $action || ( $args->slug ?? '' ) !== $this->plugin_slug || ! $this->is_enabled() ) {
+	public function plugin_info( mixed $result, mixed $action, mixed $args ): mixed {
+		$requested_slug = is_object( $args ) ? ( $args->slug ?? '' ) : '';
+
+		if ( 'plugin_information' !== $action || $requested_slug !== $this->plugin_slug || ! $this->is_enabled() ) {
 			return $result;
 		}
 
@@ -162,17 +191,19 @@ class Github_Updater {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param \WP_Upgrader $upgrader The upgrader instance.
-	 * @param array        $options  Update details.
+	 * @param mixed $upgrader The upgrader instance.
+	 * @param mixed $options  Update details.
 	 */
-	public function clear_cache( $upgrader, $options ): void {
+	public function clear_cache( mixed $upgrader, mixed $options ): void {
 		if (
+			is_array( $options ) &&
 			'update' === ( $options['action'] ?? '' ) &&
 			'plugin' === ( $options['type'] ?? '' ) &&
 			! empty( $options['plugins'] ) &&
 			in_array( $this->plugin_basename, $options['plugins'], true )
 		) {
 			delete_transient( UPDATER_CACHE_KEY );
+			delete_transient( UPDATER_FAILURE_CACHE_KEY );
 			delete_site_transient( 'update_plugins' );
 		}
 	}
@@ -180,59 +211,106 @@ class Github_Updater {
 	/**
 	 * Fetch the latest release from GitHub, with transient caching.
 	 *
+	 * A successful lookup is cached for UPDATER_CACHE_TTL, and a failed one
+	 * for the shorter UPDATER_FAILURE_CACHE_TTL so GitHub is not retried on
+	 * every update check.
+	 *
 	 * @since 1.0.0
 	 *
 	 * @return array|null Release data array, or null on failure.
 	 */
 	private function get_latest_release(): ?array {
 		$release = null;
-
-		$cached = get_transient( UPDATER_CACHE_KEY );
+		$cached  = get_transient( UPDATER_CACHE_KEY );
 
 		if ( is_array( $cached ) ) {
 			$this->log( 'get_latest_release: using cached release data.' );
 			$release = $cached;
+		} elseif ( false !== get_transient( UPDATER_FAILURE_CACHE_KEY ) ) {
+			$this->log( 'get_latest_release: backing off, a recent lookup failed.' );
 		} else {
-			$url      = sprintf( 'https://api.github.com/repos/%s/releases/latest', UPDATER_GITHUB_REPO );
-			$response = wp_remote_get(
-				$url,
-				array(
-					'timeout' => 10,
-					'headers' => array(
-						'Accept' => 'application/vnd.github.v3+json',
-					),
-				)
-			);
+			$body = $this->request_latest_release();
 
-			if ( is_wp_error( $response ) ) {
-				$this->log_error( 'get_latest_release: HTTP request to ' . $url . ' failed — ' . $response->get_error_message() );
-			} elseif ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
-				$this->log_error( 'get_latest_release: GitHub returned HTTP ' . wp_remote_retrieve_response_code( $response ) . ' for ' . $url . '.' );
-			} else {
-				$body = json_decode( wp_remote_retrieve_body( $response ), true );
-
-				if ( ! is_array( $body ) || empty( $body['tag_name'] ) ) {
-					$this->log_error( 'get_latest_release: response JSON from ' . $url . ' missing tag_name.' );
-				} else {
-					$zip_url = $this->find_zip_asset( $body );
-
-					if ( empty( $zip_url ) ) {
-						$this->log_error( 'get_latest_release: no matching .zip asset for tag ' . $body['tag_name'] . '.' );
-					} else {
-						$this->log( 'get_latest_release: found release ' . $body['tag_name'] . '.' );
-
-						$release = array(
-							'version'      => ltrim( $body['tag_name'], 'v' ),
-							'zip_url'      => $zip_url,
-							'html_url'     => $body['html_url'] ?? '',
-							'body'         => $body['body'] ?? '',
-							'published_at' => $body['published_at'] ?? '',
-						);
-
-						set_transient( UPDATER_CACHE_KEY, $release, UPDATER_CACHE_TTL );
-					}
-				}
+			if ( is_array( $body ) ) {
+				$release = $this->build_release( $body );
 			}
+
+			if ( null === $release ) {
+				set_transient( UPDATER_FAILURE_CACHE_KEY, time(), UPDATER_FAILURE_CACHE_TTL );
+			} else {
+				set_transient( UPDATER_CACHE_KEY, $release, UPDATER_CACHE_TTL );
+				delete_transient( UPDATER_FAILURE_CACHE_KEY );
+			}
+		}
+
+		return $release;
+	}
+
+	/**
+	 * Request the latest release from the GitHub API.
+	 *
+	 * Every failure path logs through log_error(), so a sysadmin diagnosing
+	 * updates that are not arriving sees the reason without enabling WP_DEBUG.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @return array|null Decoded response body, or null if the request failed.
+	 */
+	private function request_latest_release(): ?array {
+		$body = null;
+		$url  = sprintf( 'https://api.github.com/repos/%s/releases/latest', UPDATER_GITHUB_REPO );
+
+		$response = wp_remote_get(
+			$url,
+			array(
+				'timeout' => UPDATER_REQUEST_TIMEOUT,
+				'headers' => array(
+					'Accept' => 'application/vnd.github.v3+json',
+				),
+			)
+		);
+
+		if ( is_wp_error( $response ) ) {
+			$this->log_error( 'request_latest_release: HTTP request to ' . $url . ' failed — ' . $response->get_error_message() );
+		} elseif ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
+			$this->log_error( 'request_latest_release: GitHub returned HTTP ' . wp_remote_retrieve_response_code( $response ) . ' for ' . $url . '.' );
+		} else {
+			$decoded = json_decode( wp_remote_retrieve_body( $response ), true );
+
+			if ( ! is_array( $decoded ) || empty( $decoded['tag_name'] ) ) {
+				$this->log_error( 'request_latest_release: response JSON from ' . $url . ' missing tag_name.' );
+			} else {
+				$body = $decoded;
+			}
+		}
+
+		return $body;
+	}
+
+	/**
+	 * Build the cached release array from a GitHub API response body.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param array $body Decoded GitHub release API response.
+	 * @return array|null Release data, or null if it carries no usable ZIP asset.
+	 */
+	private function build_release( array $body ): ?array {
+		$release = null;
+		$zip_url = $this->find_zip_asset( $body );
+
+		if ( '' === $zip_url ) {
+			$this->log_error( 'build_release: no matching .zip asset for tag ' . $body['tag_name'] . '.' );
+		} else {
+			$this->log( 'build_release: found release ' . $body['tag_name'] . '.' );
+
+			$release = array(
+				'version'      => ltrim( (string) $body['tag_name'], 'v' ),
+				'zip_url'      => $zip_url,
+				'html_url'     => $body['html_url'] ?? '',
+				'body'         => $body['body'] ?? '',
+				'published_at' => $body['published_at'] ?? '',
+			);
 		}
 
 		return $release;
@@ -256,6 +334,11 @@ class Github_Updater {
 		if ( ! empty( $release_data['assets'] ) && is_array( $release_data['assets'] ) ) {
 			$stable_name = $this->plugin_slug . '.zip';
 
+			// Versioned form: "<slug>-1.2.3.zip". Anchored and requiring a digit
+			// after the hyphen so an unrelated asset such as "<slug>-docs.zip"
+			// is never offered to WordPress as the plugin.
+			$versioned_pattern = '/^' . preg_quote( $this->plugin_slug, '/' ) . '-[0-9][0-9a-z.\-]*\.zip$/i';
+
 			foreach ( $release_data['assets'] as $asset ) {
 				$name = $asset['name'] ?? '';
 
@@ -264,8 +347,7 @@ class Github_Updater {
 					break;
 				}
 
-				// Accept any zip starting with the plugin slug as a fallback.
-				if ( empty( $zip_url ) && str_starts_with( $name, $this->plugin_slug ) && str_ends_with( $name, '.zip' ) ) {
+				if ( '' === $zip_url && 1 === preg_match( $versioned_pattern, $name ) ) {
 					$zip_url = $asset['browser_download_url'] ?? '';
 				}
 			}
