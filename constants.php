@@ -4,7 +4,7 @@
  *
  * All magic strings live here.
  *
- * @package AutocompleteVirtualOrders
+ * @package Autocomplete_Virtual_Orders
  * @since 1.0.0
  */
 

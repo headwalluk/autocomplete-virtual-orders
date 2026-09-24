@@ -2,8 +2,7 @@
 /**
  * Main plugin orchestrator.
  *
- * @package AutocompleteVirtualOrders
- * @subpackage Includes
+ * @package Autocomplete_Virtual_Orders
  * @since 1.0.0
  */
 
@@ -24,21 +23,12 @@ defined( 'ABSPATH' ) || die();
 class Plugin {
 
 	/**
-	 * GitHub release updater.
-	 *
-	 * @var Github_Updater|null
-	 */
-	private ?Github_Updater $github_updater = null;
-
-	/**
 	 * Register WordPress/WooCommerce hooks.
 	 *
 	 * @since 1.0.0
 	 */
 	public function run(): void {
 		add_action( HOOK_TRIGGER, array( $this, 'maybe_complete_virtual_order' ), 10, 2 );
-
-		$this->github_updater = new Github_Updater();
 	}
 
 	/**

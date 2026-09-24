@@ -4,7 +4,7 @@
  *
  * Internal helpers used within the plugin namespace. Not part of the public API.
  *
- * @package AutocompleteVirtualOrders
+ * @package Autocomplete_Virtual_Orders
  * @since 1.0.0
  */
 

@@ -6,7 +6,7 @@
  * GitHub repository for new releases and serve them as standard plugin
  * updates.
  *
- * @package AutocompleteVirtualOrders
+ * @package Autocomplete_Virtual_Orders
  * @since 1.0.0
  */
 
