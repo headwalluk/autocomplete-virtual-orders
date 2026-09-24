@@ -29,6 +29,20 @@ const DEF_TARGET_STATUS = 'completed';
 const HOOK_TRIGGER = 'woocommerce_order_status_processing';
 
 /**
+ * Plugin name, used untranslated as the order-note prefix.
+ *
+ * @since 1.1.0
+ */
+const PLUGIN_NAME = 'Autocomplete Virtual Orders';
+
+/**
+ * WooCommerce logger source (WooCommerce → Status → Logs).
+ *
+ * @since 1.1.0
+ */
+const LOG_SOURCE = 'autocomplete-virtual-orders';
+
+/**
  * GitHub Updater configuration.
  *
  * UPDATER_GITHUB_REPO is the "owner/repo" that publishes tagged releases with a

@@ -9,6 +9,7 @@
 namespace Autocomplete_Virtual_Orders;
 
 use WC_Order;
+use WC_Product;
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || die();
@@ -34,18 +35,18 @@ class Plugin {
 	/**
 	 * Complete an order if it contains only virtual items.
 	 *
-	 * Hooked to woocommerce_order_status_processing, so it fires whenever an
-	 * order enters the Processing status. If the order has nothing physical to
-	 * ship, it is advanced to the target status (Completed by default).
-	 *
 	 * @since 1.0.0
 	 *
-	 * @param int           $order_id WooCommerce order ID.
-	 * @param WC_Order|null $order    The order object (passed by WooCommerce), or null.
+	 * @param mixed $order_id WooCommerce order ID.
+	 * @param mixed $order    The order object passed by WooCommerce, or null.
 	 */
-	public function maybe_complete_virtual_order( int $order_id, $order = null ): void {
-		if ( ! $order instanceof WC_Order ) {
-			$order = wc_get_order( $order_id );
+	public function maybe_complete_virtual_order( mixed $order_id, mixed $order = null ): void {
+		if ( $order instanceof WC_Order ) {
+			// WooCommerce passed the order; no lookup needed.
+		} elseif ( is_numeric( $order_id ) ) {
+			$order = wc_get_order( (int) $order_id );
+		} else {
+			$order = null;
 		}
 
 		if ( $order instanceof WC_Order ) {
@@ -62,27 +63,18 @@ class Plugin {
 			 * @param bool     $should_complete Whether the order should be completed.
 			 * @param WC_Order $order           The order being evaluated.
 			 */
-			$should_complete = (bool) apply_filters( 'acvo_should_autocomplete_order', $should_complete, $order );
+			$should_complete = (bool) filter_var( apply_filters( 'acvo_should_autocomplete_order', $should_complete, $order ), FILTER_VALIDATE_BOOLEAN );
 
 			if ( $should_complete ) {
-				/**
-				 * Filter the status that qualifying orders are moved to.
-				 *
-				 * @since 1.0.0
-				 *
-				 * @param string   $status The target status slug (default 'completed').
-				 * @param WC_Order $order  The order being evaluated.
-				 */
-				$target_status = (string) apply_filters( 'acvo_target_status', DEF_TARGET_STATUS, $order );
+				$target_status = $this->get_target_status( $order );
 
-				// Skip if the order is already in the target status.
 				if ( ! $order->has_status( $target_status ) ) {
 					$order->update_status(
 						$target_status,
 						sprintf(
 							/* translators: %s is the plugin name, used as a prefix on the order note; not translated. */
 							__( '%s: order completed automatically (all items are virtual — nothing to ship).', 'autocomplete-virtual-orders' ),
-							'Autocomplete Virtual Orders'
+							PLUGIN_NAME
 						)
 					);
 
@@ -121,7 +113,7 @@ class Plugin {
 		foreach ( $items as $item ) {
 			$product = $item->get_product();
 
-			if ( ! $product || ! $product->is_virtual() ) {
+			if ( ! $product instanceof WC_Product || ! $product->is_virtual() ) {
 				$result = false;
 				break;
 			}
@@ -138,6 +130,42 @@ class Plugin {
 		 * @param bool     $result Whether every item in the order is virtual.
 		 * @param WC_Order $order  The order being inspected.
 		 */
-		return (bool) apply_filters( 'acvo_order_is_all_virtual', $result, $order );
+		return (bool) filter_var( apply_filters( 'acvo_order_is_all_virtual', $result, $order ), FILTER_VALIDATE_BOOLEAN );
+	}
+
+	/**
+	 * Resolve the filtered target status, falling back to DEF_TARGET_STATUS if it is not registered.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param WC_Order $order The order being completed.
+	 * @return string Bare status slug, without the `wc-` prefix.
+	 */
+	private function get_target_status( WC_Order $order ): string {
+		/**
+		 * Filter the status that qualifying orders are moved to.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string   $status The target status slug (default 'completed').
+		 * @param WC_Order $order  The order being evaluated.
+		 */
+		$filtered_status = apply_filters( 'acvo_target_status', DEF_TARGET_STATUS, $order );
+		$target_status   = DEF_TARGET_STATUS;
+
+		if ( ! is_string( $filtered_status ) ) {
+			log_error( sprintf( 'acvo_target_status returned %s for order #%d; using "%s".', get_debug_type( $filtered_status ), $order->get_id(), DEF_TARGET_STATUS ) );
+		} else {
+			$bare_status = str_starts_with( $filtered_status, 'wc-' ) ? substr( $filtered_status, 3 ) : $filtered_status;
+
+			// WC_Order::set_status() silently swaps an unregistered status for "pending".
+			if ( array_key_exists( 'wc-' . $bare_status, wc_get_order_statuses() ) ) {
+				$target_status = $bare_status;
+			} else {
+				log_error( sprintf( 'acvo_target_status returned unregistered status "%s" for order #%d; using "%s".', $filtered_status, $order->get_id(), DEF_TARGET_STATUS ) );
+			}
+		}
+
+		return $target_status;
 	}
 }

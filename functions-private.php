@@ -23,3 +23,14 @@ function get_plugin(): Plugin {
 	global $acvo_plugin;
 	return $acvo_plugin;
 }
+
+/**
+ * Write an error to the WooCommerce log under LOG_SOURCE.
+ *
+ * @since 1.1.0
+ *
+ * @param string $message The message to log.
+ */
+function log_error( string $message ): void {
+	wc_get_logger()->error( $message, array( 'source' => LOG_SOURCE ) );
+}
