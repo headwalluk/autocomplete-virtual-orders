@@ -1,58 +1,56 @@
 # Autocomplete Virtual Orders
 
-![Version](https://img.shields.io/badge/version-1.0.0-brightgreen.svg)
-![WordPress](https://img.shields.io/badge/WordPress-6.0%2B-21759b.svg?logo=wordpress&logoColor=white)
-![WooCommerce](https://img.shields.io/badge/WooCommerce-9.0%2B-96588a.svg?logo=woocommerce&logoColor=white)
-![PHP](https://img.shields.io/badge/PHP-8.0%2B-777bb4.svg?logo=php&logoColor=white)
-![License](https://img.shields.io/badge/license-GPLv2%2B-blue.svg)
+[![Version](https://img.shields.io/github/v/release/headwalluk/autocomplete-virtual-orders?label=version&color=blue)](https://github.com/headwalluk/autocomplete-virtual-orders/releases/latest)
+[![PHP](https://img.shields.io/badge/PHP-8.2+-purple.svg)](https://www.php.net/)
+[![WordPress](https://img.shields.io/badge/WordPress-6.0+-21759B.svg)](https://wordpress.org/)
+[![WooCommerce](https://img.shields.io/badge/WooCommerce-9.0+-96588A.svg)](https://woocommerce.com/)
+[![License](https://img.shields.io/badge/license-GPL--2.0+-green.svg)](LICENSE)
+[![Coding Standards](https://img.shields.io/badge/WordPress-Coding%20Standards-blue.svg)](https://github.com/WordPress/WordPress-Coding-Standards)
 
-A tiny WooCommerce plugin that automatically completes orders with **nothing to
-ship**. When an order reaches **Processing**, if every item in it is a *virtual*
-product, the order is moved straight to **Completed**. Any physical item, and the
-order is left alone.
+Automatically completes WooCommerce orders that contain only virtual items (nothing to ship) when they reach Processing.
 
-It fills one gap in WooCommerce core, which only auto-completes orders that are
-virtual *and* downloadable — so bookings, services, donations, admissions and
-other non-downloadable virtual products otherwise sit in Processing forever.
+WooCommerce core only auto-completes orders that are virtual *and* downloadable, so bookings, services, donations, admissions and other non-downloadable virtual products otherwise sit in Processing until someone completes them by hand.
 
-**Who it's for:** store owners selling services, bookings or donations who are
-tired of completing orders by hand, and developers who want a small,
-dependency-free, filter-driven building block rather than a bloated order-automation
-suite.
+**Who it's for:** store owners selling services, bookings or donations who are tired of completing orders by hand, and developers who want a small, dependency-free, filter-driven building block rather than an order-automation suite.
 
-## Features
+## What it does
 
-- Auto-completes an order the moment it reaches Processing, if all items are virtual.
-- Leaves any order with a physical item untouched.
-- Zero configuration — works the moment it's activated.
-- HPOS (High-Performance Order Storage) compatible.
-- Fully customisable in code: three filters and an action, no settings page.
-- Self-updating from GitHub releases.
-- No telemetry, no phone-home, no upsells, no bloat.
+- Completes an order the moment it reaches Processing, if every item is virtual
+- Leaves any order with a physical item untouched
+- Records an order note on every order it completes
+- Zero configuration — works the moment it's activated
+- HPOS (High-Performance Order Storage) compatible
+- Customisable in code: four filters and an action, no settings page
+- Self-updating from GitHub releases
+- No telemetry, no phone-home, no upsells
+
+## Install
+
+1. Download `autocomplete-virtual-orders.zip` from the [latest release](https://github.com/headwalluk/autocomplete-virtual-orders/releases/latest)
+2. WordPress admin → Plugins → Add New → Upload Plugin → choose the zip → Install Now → Activate
+
+After install, the plugin receives future updates automatically via the bundled GitHub updater.
+
+### Requirements
+
+- WordPress 6.0 or later
+- WooCommerce 9.0 or later
+- PHP 8.2 or later
 
 ## Documentation
 
-| Guide | For |
-| ----- | --- |
-| [Installation & usage](docs/installation.md) | Store owners, web developers & designers — installing, activating and verifying it works. |
-| [Hooks reference](docs/hooks.md) | Developers — the filters and action for customising behaviour, with examples. |
+Full user and developer documentation lives in [`docs/`](docs/):
 
-## Requirements
+- [Installation](docs/installation.md)
+- [How it works](docs/how-it-works.md)
+- [Troubleshooting](docs/troubleshooting.md)
+- [Hooks and filters](docs/developers/hooks-and-filters.md) *(for developers)*
+- [Extending Autocomplete Virtual Orders](docs/developers/extending.md) *(for developers)*
 
-- WordPress 6.0+
-- WooCommerce 9.0+
-- PHP 8.0+
+## Security disclosures
 
-## Installation
-
-1. Download `autocomplete-virtual-orders.zip` from the
-   [latest release](https://github.com/headwalluk/autocomplete-virtual-orders/releases/latest).
-2. In WordPress, go to **Plugins → Add New → Upload Plugin** and upload the zip.
-3. Activate **Autocomplete Virtual Orders** in **Plugins**.
-
-WooCommerce must be installed and active first. There's nothing to configure —
-see the [Installation & usage guide](docs/installation.md) to verify it's working.
+See [SECURITY.md](SECURITY.md) for the responsible-disclosure process.
 
 ## License
 
-GPLv2 or later — see [LICENSE](LICENSE).
+GPL v2 or later. See [LICENSE](LICENSE).
