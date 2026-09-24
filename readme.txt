@@ -5,7 +5,7 @@ Requires at least: 6.7
 Tested up to: 7.1
 Requires PHP: 8.2
 Requires Plugins: woocommerce
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,10 +54,16 @@ See [`SECURITY.md`](https://github.com/headwalluk/autocomplete-virtual-orders/bl
 
 == Changelog ==
 
+= 1.1.0 =
+Fix: an `acvo_target_status` filter returning an unregistered status (a typo, for example) no longer sends paid orders back to Pending payment; the plugin falls back to Completed and logs an error. Fix: a string order ID from another plugin no longer causes a fatal error. The GitHub updater now backs off for an hour after a failed check, and `wp plugin update` now sees new releases. Translations are regenerated: the plugin name now stays in English, and the French order note uses WooCommerce's own wording. Minimum PHP is now 8.2 and minimum WordPress 6.7. `ACVO_DIR` is renamed to `ACVO_PATH`. See [CHANGELOG.md](https://github.com/headwalluk/autocomplete-virtual-orders/blob/main/CHANGELOG.md) on GitHub.
+
 = 1.0.0 =
 Initial public release. See [CHANGELOG.md](https://github.com/headwalluk/autocomplete-virtual-orders/blob/main/CHANGELOG.md) on GitHub.
 
 == Upgrade Notice ==
+
+= 1.1.0 =
+Requires PHP 8.2 or later and WordPress 6.7 or later. Fixes orders being moved to Pending payment when a custom target-status filter returns an unknown status. Code using the `ACVO_DIR` constant must switch to `ACVO_PATH`.
 
 = 1.0.0 =
 Initial public release.
