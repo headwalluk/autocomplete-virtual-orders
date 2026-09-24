@@ -1,43 +1,46 @@
 <?xml version="1.0"?>
-<ruleset name="Autocomplete Virtual Orders">
-	<description>WordPress Coding Standards for the Autocomplete Virtual Orders plugin</description>
+<ruleset name="Autocomplete Virtual Orders Standards">
+	<description>WordPress Coding Standards for Autocomplete Virtual Orders</description>
 
-	<!-- What to scan -->
 	<file>.</file>
 
 	<!-- Exclude patterns -->
 	<exclude-pattern>*/vendor/*</exclude-pattern>
 	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<exclude-pattern>*/assets/*</exclude-pattern>
+	<exclude-pattern>*/.git/*</exclude-pattern>
+	<exclude-pattern>*/build/*</exclude-pattern>
 	<exclude-pattern>*/dev-notes/*</exclude-pattern>
 	<exclude-pattern>*/docs/*</exclude-pattern>
-	<exclude-pattern>*.js</exclude-pattern>
-	<exclude-pattern>*.css</exclude-pattern>
 
-	<!-- How to scan -->
-	<arg value="sp"/> <!-- Show sniff and progress -->
+	<!-- Arguments -->
+	<arg value="sp"/>
 	<arg name="basepath" value="."/>
 	<arg name="colors"/>
 	<arg name="extensions" value="php"/>
 	<arg name="parallel" value="8"/>
 
-	<!-- Rules: WordPress Coding Standards -->
+	<!-- Rules -->
 	<rule ref="WordPress">
-		<!-- Allow short array syntax -->
 		<exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
 
-		<!-- We use namespaces, so we don't need prefixes on everything -->
-		<exclude name="WordPress.NamingConventions.PrefixAllGlobals"/>
-
-		<!-- Allow unused parameters in hook callbacks (required by WordPress hook signatures) -->
-		<exclude name="Generic.CodeAnalysis.UnusedFunctionParameter"/>
+		<!-- An if with elseif branches ends in an explicit else, with no-op branches
+		     holding only a comment (see CLAUDE.md, PHP Style). This sniff counts a comment as
+		     empty, so only its if/elseif/else codes are excluded; empty catch, loop and
+		     switch bodies are still errors. -->
+		<exclude name="Generic.CodeAnalysis.EmptyStatement.DetectedIf"/>
+		<exclude name="Generic.CodeAnalysis.EmptyStatement.DetectedElseif"/>
+		<exclude name="Generic.CodeAnalysis.EmptyStatement.DetectedElse"/>
 	</rule>
 
-	<!-- Enforce WordPress naming conventions for hooks and global functions -->
+	<!-- Prefixes -->
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
 		<properties>
 			<property name="prefixes" type="array">
 				<element value="autocomplete_virtual_orders"/>
 				<element value="acvo"/>
+				<element value="Autocomplete_Virtual_Orders"/>
+				<element value="ACVO"/>
 			</property>
 		</properties>
 	</rule>
