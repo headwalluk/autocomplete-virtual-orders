@@ -19,7 +19,7 @@ no settings page, no stored options. Every decision is overridable through filte
 - **Text Domain:** `autocomplete-virtual-orders`
 - **Prefixes:** `acvo` / `ACVO` / `autocomplete_virtual_orders` (configured in `phpcs.xml`)
 - **PHP:** 8.2+ (do NOT use `declare(strict_types=1)` — breaks WordPress/WooCommerce interop)
-- **WordPress:** 6.0+, **WooCommerce:** 9.0+ (`Requires Plugins: woocommerce`)
+- **WordPress:** 6.7+ (loads `languages/` from the `Domain Path` header — no `load_plugin_textdomain()` call), **WooCommerce:** 9.0+ (`Requires Plugins: woocommerce`)
 - **No build system** — no npm, no Composer, no bundler
 
 The structure and conventions follow the maintainer's reference plugin, `quick-2fa` (a sibling

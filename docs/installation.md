@@ -6,7 +6,7 @@ Everything you need to get **Autocomplete Virtual Orders** running. There is not
 
 | Requirement | Minimum |
 |-------------|---------|
-| WordPress   | 6.0     |
+| WordPress   | 6.7     |
 | WooCommerce | 9.0     |
 | PHP         | 8.2     |
 

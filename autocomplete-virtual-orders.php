@@ -4,7 +4,7 @@
  * Plugin URI:           https://github.com/headwalluk/autocomplete-virtual-orders
  * Description:          Automatically completes WooCommerce orders that contain only virtual items (nothing to ship) when they reach Processing.
  * Version:              1.0.0
- * Requires at least:    6.0
+ * Requires at least:    6.7
  * Requires PHP:         8.2
  * Requires Plugins:     woocommerce
  * Author:               Paul Faulkner
