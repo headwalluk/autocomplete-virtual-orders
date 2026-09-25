@@ -7,35 +7,40 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-06-30T16:44:00+00:00\n"
+"POT-Creation-Date: 2026-09-25T05:40:34+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Language: de_DE\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: autocomplete-virtual-orders\n"
 
 #. Plugin Name of the plugin
 #: autocomplete-virtual-orders.php
 msgid "Autocomplete Virtual Orders"
-msgstr "Automatische Vervollständigung virtueller Bestellungen"
+msgstr "Autocomplete Virtual Orders"
 
 #. Plugin URI of the plugin
-#. Author URI of the plugin
 #: autocomplete-virtual-orders.php
-msgid "https://headwall-hosting.com/"
-msgstr "https://headwall-hosting.com/"
+msgid "https://github.com/headwalluk/autocomplete-virtual-orders"
+msgstr "https://github.com/headwalluk/autocomplete-virtual-orders"
 
 #. Description of the plugin
 #: autocomplete-virtual-orders.php
 msgid "Automatically completes WooCommerce orders that contain only virtual items (nothing to ship) when they reach Processing."
-msgstr "Schließt WooCommerce-Bestellungen, die ausschließlich virtuelle Artikel enthalten (keine Versandware), automatisch ab, sobald sie den Status „In Bearbeitung“ erreichen."
+msgstr "Automatically completes WooCommerce orders that contain only virtual items (nothing to ship) when they reach Processing."
 
 #. Author of the plugin
 #: autocomplete-virtual-orders.php
 msgid "Paul Faulkner"
 msgstr "Paul Faulkner"
 
-#. translators: %s is the plugin name, used as a prefix on the order note; not translated.
-#: includes/class-plugin.php:94
+#. Author URI of the plugin
+#: autocomplete-virtual-orders.php
+msgid "https://headwall-hosting.com/"
+msgstr "https://headwall-hosting.com/"
+
+#. translators: Order note added when WooCommerce moves an order to its Completed status. %s is the plugin name, not translated.
+#: includes/class-plugin.php:76
 #, php-format
 msgid "%s: order completed automatically (all items are virtual — nothing to ship)."
-msgstr "%s: Bestellung wurde automatisch abgeschlossen (alle Artikel sind virtuell – es gibt nichts zu versenden)."
+msgstr "%s: Bestellung automatisch abgeschlossen (alle Artikel sind virtuell – es gibt nichts zu versenden)."

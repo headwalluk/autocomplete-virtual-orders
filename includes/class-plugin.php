@@ -72,7 +72,7 @@ class Plugin {
 					$order->update_status(
 						$target_status,
 						sprintf(
-							/* translators: %s is the plugin name, used as a prefix on the order note; not translated. */
+							/* translators: Order note added when WooCommerce moves an order to its Completed status. %s is the plugin name, not translated. */
 							__( '%s: order completed automatically (all items are virtual — nothing to ship).', 'autocomplete-virtual-orders' ),
 							PLUGIN_NAME
 						)
