@@ -32,8 +32,8 @@ require_once ACVO_PATH . 'constants.php';
 require_once ACVO_PATH . 'functions-private.php';
 require_once ACVO_PATH . 'includes/class-plugin.php';
 
-// GitHub auto-updates (admin + cron only — no need to load on front-end requests).
-if ( is_admin() || ( defined( 'DOING_CRON' ) && DOING_CRON ) ) {
+// GitHub auto-updates (admin, cron and WP-CLI only — no need to load on front-end requests).
+if ( is_admin() || ( defined( 'DOING_CRON' ) && DOING_CRON ) || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
 	require_once ACVO_PATH . 'includes/class-github-updater.php';
 	new Autocomplete_Virtual_Orders\Github_Updater();
 }

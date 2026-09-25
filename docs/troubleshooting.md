@@ -21,5 +21,6 @@ Something is overriding the default decision. Search your theme and plugins for 
 ## Updates aren't appearing
 
 - Updates are checked at most every 12 hours. After a failed check, the plugin waits an hour before asking GitHub again.
+- To check from the command line, run `wp plugin list --name=autocomplete-virtual-orders --fields=name,version,update,update_version`. `wp plugin update autocomplete-virtual-orders` installs a pending update.
 - Check for `acvo_updater_enabled` in your code — it may have been used to pause updates.
 - Check the PHP error log for lines starting `Autocomplete_Virtual_Orders Github_Updater [error]:`. Failed update checks are always logged there, whether or not `WP_DEBUG` is on.

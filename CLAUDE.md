@@ -75,7 +75,7 @@ tolerates a sloppy third-party caller.
 and `ACVO_BASENAME`, requires `constants.php`, `functions-private.php` and
 `includes/class-plugin.php`, and declares HPOS compatibility. `acvo_plugin_run()` then stores the
 `Plugin` instance in the global `$acvo_plugin` (read back with `get_plugin()`) and calls `run()`.
-The GitHub updater is loaded only on admin and cron requests.
+The GitHub updater is loaded only on admin, cron and WP-CLI requests.
 
 ### Key Files
 
