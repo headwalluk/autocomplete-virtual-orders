@@ -33,6 +33,15 @@
 		<exclude name="Generic.CodeAnalysis.EmptyStatement.DetectedElse"/>
 	</rule>
 
+	<!-- Text domain -->
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="autocomplete-virtual-orders"/>
+			</property>
+		</properties>
+	</rule>
+
 	<!-- Prefixes -->
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
 		<properties>
