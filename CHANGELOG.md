@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- The GitHub updater is replaced by the current shared version. It caches its lookups under `autocomplete_virtual_orders_github_release` and `autocomplete_virtual_orders_github_failed`; the 1.x transients (`acvo_latest_release`, `acvo_latest_release_failed`) expire on their own, and uninstalling removes them. The `acvo_updater_enabled` filter is unchanged.
+- Translations now load through `load_plugin_textdomain()` as well as WordPress's automatic loading.
+- The plugin description is now translated; the plugin name, author and links stay in English.
+- The plugin and author links on the Plugins screen now go to the plugin's page and the author's page on headwall-hosting.com.
+- `Plugin::instance()` returns the plugin object. The `$acvo_plugin` global still holds it.
+
+### Added
+
+- Declares Checkout block compatibility, alongside High-Performance Order Storage.
+- A privacy section in `docs/how-it-works.md`.
+
+### Removed
+
+- `readme.txt`. `README.md`, `CHANGELOG.md` and `docs/` cover it, and the release workflow no longer checks its stable tag.
+
 ## [1.1.0] - 2026-09-24
 
 ### Fixed

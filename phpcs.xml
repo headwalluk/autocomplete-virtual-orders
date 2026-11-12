@@ -2,6 +2,9 @@
 <ruleset name="Autocomplete Virtual Orders Standards">
 	<description>WordPress Coding Standards for Autocomplete Virtual Orders</description>
 
+	<config name="minimum_wp_version" value="6.7"/>
+	<config name="testVersion" value="8.2-"/>
+
 	<file>.</file>
 
 	<!-- Exclude patterns -->

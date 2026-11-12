@@ -20,8 +20,7 @@ defined( 'ABSPATH' ) || die();
  * @return Plugin The plugin instance.
  */
 function get_plugin(): Plugin {
-	global $acvo_plugin;
-	return $acvo_plugin;
+	return Plugin::instance();
 }
 
 /**

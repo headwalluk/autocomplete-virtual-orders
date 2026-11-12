@@ -34,6 +34,12 @@ Completing the order sends WooCommerce's usual **Completed order** email to the 
 - It doesn't change orders retrospectively. Orders already sitting in Processing when the plugin is activated stay there until they next enter Processing.
 - It doesn't store settings or data of its own. Deleting the plugin leaves your orders as they are.
 
+## Privacy
+
+The plugin stores no personal data and no settings. When it completes an order, it adds an order note saying so.
+
+To check for updates, it asks `api.github.com` for the latest release, at most every 12 hours. Like every request WordPress makes, that request carries your site's address in its user agent; it sends nothing about your orders or customers.
+
 ## Changing the behaviour
 
 There is no settings page. A developer can change which orders are completed, what counts as virtual, and the status orders move to, using filters — see [hooks and filters](developers/hooks-and-filters.md).

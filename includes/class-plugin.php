@@ -8,6 +8,7 @@
 
 namespace Autocomplete_Virtual_Orders;
 
+use Automattic\WooCommerce\Utilities\FeaturesUtil;
 use WC_Order;
 use WC_Product;
 
@@ -24,12 +25,59 @@ defined( 'ABSPATH' ) || die();
 class Plugin {
 
 	/**
+	 * Single instance of the class.
+	 *
+	 * @since 1.2.0
+	 * @var ?Plugin
+	 */
+	private static $instance = null;
+
+	/**
+	 * Get single instance of the class.
+	 *
+	 * @since 1.2.0
+	 * @return Plugin
+	 */
+	public static function instance(): Plugin {
+		if ( null === self::$instance ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
+	}
+
+	/**
 	 * Register WordPress/WooCommerce hooks.
 	 *
 	 * @since 1.0.0
 	 */
 	public function run(): void {
 		add_action( HOOK_TRIGGER, array( $this, 'maybe_complete_virtual_order' ), 10, 2 );
+		add_action( 'before_woocommerce_init', array( $this, 'declare_woocommerce_compatibility' ) );
+		add_action( 'init', array( $this, 'load_textdomain' ) );
+	}
+
+	/**
+	 * Declare HPOS and Checkout block compatibility.
+	 *
+	 * @since 1.0.0
+	 */
+	public function declare_woocommerce_compatibility(): void {
+		if ( class_exists( FeaturesUtil::class ) ) {
+			FeaturesUtil::declare_compatibility( 'custom_order_tables', ACVO_FILE, true );
+			FeaturesUtil::declare_compatibility( 'cart_checkout_blocks', ACVO_FILE, true );
+		}
+	}
+
+	/**
+	 * Load plugin text domain for translations.
+	 *
+	 * Needed for the translations shipped in the plugin's own languages/ directory.
+	 *
+	 * @since 1.2.0
+	 */
+	public function load_textdomain(): void {
+		load_plugin_textdomain( 'autocomplete-virtual-orders', false, dirname( ACVO_BASENAME ) . '/languages' );
 	}
 
 	/**

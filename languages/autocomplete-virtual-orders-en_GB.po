@@ -19,11 +19,6 @@ msgstr ""
 msgid "Autocomplete Virtual Orders"
 msgstr "Autocomplete Virtual Orders"
 
-#. Plugin URI of the plugin
-#: autocomplete-virtual-orders.php
-msgid "https://github.com/headwalluk/autocomplete-virtual-orders"
-msgstr "https://github.com/headwalluk/autocomplete-virtual-orders"
-
 #. Description of the plugin
 #: autocomplete-virtual-orders.php
 msgid "Automatically completes WooCommerce orders that contain only virtual items (nothing to ship) when they reach Processing."
@@ -34,13 +29,18 @@ msgstr "Automatically completes WooCommerce orders that contain only virtual ite
 msgid "Paul Faulkner"
 msgstr "Paul Faulkner"
 
-#. Author URI of the plugin
-#: autocomplete-virtual-orders.php
-msgid "https://headwall-hosting.com/"
-msgstr "https://headwall-hosting.com/"
-
 #. translators: Order note added when WooCommerce moves an order to its Completed status. %s is the plugin name, not translated.
-#: includes/class-plugin.php:76
+#: includes/class-plugin.php:124
 #, php-format
 msgid "%s: order completed automatically (all items are virtual — nothing to ship)."
 msgstr "%s: order completed automatically (all items are virtual — nothing to ship)."
+
+#. Plugin URI of the plugin
+#: autocomplete-virtual-orders.php
+msgid "https://headwall-hosting.com/plugins/autocomplete-virtual-orders/"
+msgstr "https://headwall-hosting.com/plugins/autocomplete-virtual-orders/"
+
+#. Author URI of the plugin
+#: autocomplete-virtual-orders.php
+msgid "https://headwall-hosting.com/a-web-guys-blog/"
+msgstr "https://headwall-hosting.com/a-web-guys-blog/"

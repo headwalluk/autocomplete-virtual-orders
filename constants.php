@@ -43,28 +43,22 @@ const PLUGIN_NAME = 'Autocomplete Virtual Orders';
 const LOG_SOURCE = 'autocomplete-virtual-orders';
 
 /**
- * GitHub Updater configuration.
+ * GitHub updater: the "owner/repo" that publishes tagged releases, and the
+ * filter passed to Github_Updater. Other hooks are named literally at each call,
+ * so phpcs can check their prefix.
  *
- * UPDATER_GITHUB_REPO is the "owner/repo" that publishes tagged releases with a
- * `{slug}.zip` asset attached. Update this if the repository moves.
+ * @since 1.0.0
  */
-const UPDATER_GITHUB_REPO = 'headwalluk/autocomplete-virtual-orders';
-const UPDATER_CACHE_KEY   = 'acvo_latest_release';
-const UPDATER_CACHE_TTL   = 12 * HOUR_IN_SECONDS;
+const UPDATER_GITHUB_REPO    = 'headwalluk/autocomplete-virtual-orders';
+const FILTER_UPDATER_ENABLED = 'acvo_updater_enabled';
 
 /**
- * Back-off after a failed release lookup.
+ * Transients the 1.x updater cached its lookups in. uninstall.php still deletes
+ * them; the current updater names its cache from the plugin slug.
  *
- * Shorter than UPDATER_CACHE_TTL so a real release is not missed for long.
- *
- * @since 1.1.0
+ * @since 1.2.0
  */
-const UPDATER_FAILURE_CACHE_KEY = 'acvo_latest_release_failed';
-const UPDATER_FAILURE_CACHE_TTL = HOUR_IN_SECONDS;
-
-/**
- * Seconds to wait on the GitHub API before giving up.
- *
- * @since 1.1.0
- */
-const UPDATER_REQUEST_TIMEOUT = 10;
+const LEGACY_UPDATER_CACHE_KEYS = array(
+	'acvo_latest_release',
+	'acvo_latest_release_failed',
+);
