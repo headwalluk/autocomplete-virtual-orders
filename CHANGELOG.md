@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-11-12
+
 ### Changed
 
 - The GitHub updater is replaced by the current shared version. It caches its lookups under `autocomplete_virtual_orders_github_release` and `autocomplete_virtual_orders_github_failed`; the 1.x transients (`acvo_latest_release`, `acvo_latest_release_failed`) expire on their own, and uninstalling removes them. The `acvo_updater_enabled` filter is unchanged.
